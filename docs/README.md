@@ -11,5 +11,5 @@ role-based ecosystem that connects users with the expertise they need. The platf
 end users seeking fitness transformation, qualified trainers who develop personalized workout programs, and certified
 nutritionists who craft customized meal plans. This multi-roles approach ensures that users receive
 
-What sets Creatine apart is its structured approach to workout routine application. The platform delivers cohesive
+What sets Creatine apart is its structured approach to work out routine application. The platform delivers cohesive
 training programs with intelligent progression
