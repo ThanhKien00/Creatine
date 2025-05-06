@@ -1,24 +1,42 @@
 # Model Design
 
-- Exercise:
-  - title
-  - duration
-  - level: Beginner | Intermediate | Advanced | 
-  - tags: Json
-  - description
-  - video ?
-  - image ?
-  - author
-- Routine (Entity)
-  - title 
-  - 
-  - detail (RoutineDetail)
+User Context
 
-- Routine Detail (Value object)
-  - total Volume ()
+- User:
+    - Authentication Properties: username, email, password
+    - Profile Properties: firstName, lastName, birthday, Gender, about_me
+
+- Measurement:
+  - record_day
+  - height, weight, body_fat 
+  - neck, shoulders, chest, bicep, forearm, wrist, waist, hips, thigh, calf
+  - result
+  - images
+
+- Plan
+  - s
+  - calories
+
+- Exercise:
+    - title
+    - duration
+    - level: Beginner | Intermediate | Advanced |
+    - tags: Json string
+    - description
+    - video, image
+    - instructions {step, guide}
+
+- Exercised: (User_Exercises)
+  - user_id
+  - recorded_exercises  
+  - calories
   - duration
-  - estimate Calories
-  - Section
-    - name (Ex: Push up, Bench press, etc.)
-    - Sets
-      - Reps
+
+- Recorded_Exercise 
+  - exercise_id
+  - rep
+  - avg_weight
+
+
+- Routine:
+
