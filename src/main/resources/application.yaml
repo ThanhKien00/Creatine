@@ -8,7 +8,7 @@ spring:
       enabled: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://creatine-mysql:3307/creatine_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://creatine-mysql:3306/creatineDB?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
     username: ${DATASOURCE_USERNAME:root}
     password: ${DATASOURCE_PASSWORD:abc@13579}
   jpa:

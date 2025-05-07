@@ -9,6 +9,7 @@ import org.jmolecules.ddd.types.Identifier;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +18,15 @@ public class User {
 
     @EmbeddedId
     private UserIdentifier identifier;
+
+    // authentication properties
+    private String email;
+    private String username;
+    private String password;
+
+    // profile properties
+    private LocalDate birthday;
+
 
     @Embeddable
     @NoArgsConstructor(force = true)

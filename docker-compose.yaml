@@ -6,7 +6,7 @@ services:
     container_name: creatine-mysql
     environment:
       MYSQL_ROOT_PASSWORD: abc@13579
-      MYSQL_DATABASE: creatine_db
+      MYSQL_DATABASE: creatineDB
       MYSQL_USER: root
       MYSQL_PASSWORD: abc@13579
       TZ: Asia/Ho_Chi_Minh
