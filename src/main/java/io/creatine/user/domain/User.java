@@ -1,41 +1,91 @@
 package io.creatine.user.domain;
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import io.creatine.user.domain.command.UserCommand;
+import io.creatine.user.domain.valueobject.Goal;
+import io.creatine.user.domain.valueobject.Measurement;
+import io.creatine.user.domain.valueobject.Role;
+import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.jmolecules.ddd.types.Identifier;
+import org.springframework.data.domain.AbstractAggregateRoot;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+/// # User Aggregate
+/// To manage system accounts, Creatine has a notion of a {@code User} in the form of User Interfaces.
+///
+/// @author ThanhKien
+
+@Getter
 @Entity
 @Table(name = "users")
-public class User {
+@NoArgsConstructor
+public class User extends AbstractAggregateRoot<User> implements UserDetails {
 
-    @EmbeddedId
-    private UserIdentifier identifier;
+    @Id
+    private UUID id;
 
-    // authentication properties
+    // Account properties
     private String email;
     private String username;
     private String password;
 
-    // profile properties
+    // Profile properties
+    private String bio;
+    private Integer age;
+    private String lastName;
+    private String firstName;
     private LocalDate birthday;
+    private LocalDateTime lastLogin;
+    private String imageUrl;
+    private boolean enabled;
 
+    @ElementCollection(fetch = FetchType.LAZY, targetClass = Measurement.class)
+    @CollectionTable(name = "measurements", joinColumns = @JoinColumn(name = "user_id"))
+    private List<Measurement> measurements;
 
-    @Embeddable
-    @NoArgsConstructor(force = true)
-    static class UserIdentifier implements Identifier, Serializable {
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Role> roles;
 
-        @Serial
-        private static final long serialVersionUID = 1L;
+    @Embedded
+    private Goal goal;
 
-        private UUID id;
-
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.toAuthority()))
+                .collect(Collectors.toList());
     }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    // Command Handling Methods
+    public void handle(UserCommand.CreateAccount command) {
+
+
+//        registerEvent();
+    }
+
+
 }

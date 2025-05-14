@@ -7,7 +7,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: abc@13579
       MYSQL_DATABASE: creatineDB
-      MYSQL_USER: root
+      MYSQL_ROOT_USER: root
       MYSQL_PASSWORD: abc@13579
       TZ: Asia/Ho_Chi_Minh
     ports:
