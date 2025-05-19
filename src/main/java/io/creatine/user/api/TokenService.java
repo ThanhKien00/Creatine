@@ -1,15 +1,13 @@
 package io.creatine.user.api;
 
 
+import io.creatine.user.api.response.TokenResponse;
+
 import java.util.Date;
-import java.util.Map;
 
 public interface TokenService {
 
-
-    String generateToken(String subject);
-
-    String generateToken(String subject, Map<String, Object> claims);
+    TokenResponse generateToken(String subject);
 
     String extractSubject(String token);
 

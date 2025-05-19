@@ -1,3 +1,7 @@
 package io.creatine.user.api;
 
-public interface UserService {}
+public interface UserService {
+
+
+
+}

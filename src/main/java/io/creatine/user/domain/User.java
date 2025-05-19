@@ -1,12 +1,12 @@
 package io.creatine.user.domain;
 
 import io.creatine.user.domain.command.UserCommand;
-import io.creatine.user.domain.valueobject.Goal;
 import io.creatine.user.domain.valueobject.Measurement;
 import io.creatine.user.domain.valueobject.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jmolecules.ddd.annotation.AggregateRoot;
 import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,15 +26,18 @@ import java.util.stream.Collectors;
 
 @Getter
 @Entity
+@AggregateRoot
 @Table(name = "users")
 @NoArgsConstructor
 public class User extends AbstractAggregateRoot<User> implements UserDetails {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    // Account properties
+    @Column(unique = true, nullable = false)
     private String email;
+    @Column(unique = true, nullable = false)
     private String username;
     private String password;
 
@@ -45,17 +48,17 @@ public class User extends AbstractAggregateRoot<User> implements UserDetails {
     private String firstName;
     private LocalDate birthday;
     private LocalDateTime lastLogin;
+    private Integer loginAttempts;
     private String imageUrl;
     private boolean enabled;
 
-    @ElementCollection(fetch = FetchType.LAZY, targetClass = Measurement.class)
-    @CollectionTable(name = "measurements", joinColumns = @JoinColumn(name = "user_id"))
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Measurement> measurements;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Role> roles;
 
-    @Embedded
+    @OneToOne(mappedBy = "user")
     private Goal goal;
 
     @Override
@@ -81,11 +84,15 @@ public class User extends AbstractAggregateRoot<User> implements UserDetails {
     }
 
     // Command Handling Methods
-    public void handle(UserCommand.CreateAccount command) {
-
-
+    public User handle(UserCommand.CreateAccount command) {
+        this.id = UUID.randomUUID();
+        this.username = command.username();
+        this.email = command.email();
+        this.password = command.password();
+        this.enabled = false;
+        this.roles = List.of();
 //        registerEvent();
+        return this;
     }
-
 
 }
