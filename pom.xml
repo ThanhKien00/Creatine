@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.5</version>
+        <version>3.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.creatine</groupId>
     <artifactId>creatine</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>creatine</name>
+    <version>1.0.0</version>
+    <name>Creatine</name>
     <description>creatine</description>
     <url/>
     <licenses>
@@ -29,8 +29,9 @@
     <properties>
         <java.version>24</java.version>
         <jjwt.version>0.12.6</jjwt.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
         <jmolecules.version>2023.3.1</jmolecules.version>
-        <spring-modulith.version>1.3.5</spring-modulith.version>
+        <spring-modulith.version>1.4.0</spring-modulith.version>
     </properties>
 
     <dependencies>
@@ -55,6 +56,10 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.modulith</groupId>
             <artifactId>spring-modulith-starter-jpa</artifactId>
         </dependency>
@@ -74,11 +79,7 @@
         </dependency>
         <dependency>
             <groupId>org.jmolecules.integrations</groupId>
-            <artifactId>jmolecules-starter-ddd</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jmolecules.integrations</groupId>
-            <artifactId>jmolecules-jpa</artifactId>
+            <artifactId>jmolecules-spring</artifactId>
         </dependency>
 
         <dependency>
@@ -97,6 +98,12 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -182,6 +189,11 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

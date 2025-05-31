@@ -1,6 +1,7 @@
 package io.creatine.support;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,12 @@ public class CreatineExceptionHandler {
         var errorsDetail = fieldErrors.stream()
                 .map(error -> new ErrorResponse.ErrorDetail(error.getField(), error.getDefaultMessage()))
                 .toList();
-        return new ErrorResponse("Some field have wrong", URI.create(request.getServletPath()), ZonedDateTime.now(), errorsDetail);
+        return new ErrorResponse("Some fields have been wrong", URI.create(request.getServletPath()), ZonedDateTime.now(), errorsDetail);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ErrorResponse handleDataIntegrityViolationException(DataIntegrityViolationException ex, HttpServletRequest request) {
+        return new ErrorResponse(ex.getMessage(), URI.create(request.getServletPath()), ZonedDateTime.now(), null);
     }
 }

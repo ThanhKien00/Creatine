@@ -4,9 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.modulith.Modulith;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+@EnableAsync
 @SpringBootApplication
-@EnableAsync(proxyTargetClass = true)
+@EnableTransactionManagement(proxyTargetClass = true)
 @Modulith(systemName = "Creatine Platform", additionalPackages = "io.creatine", useFullyQualifiedModuleNames = true)
 public class CreatineApplication {
 
