@@ -12,4 +12,6 @@ public interface AuthenticationService {
 
     void changePassword();
 
+    void forgotPassword();
+
 }

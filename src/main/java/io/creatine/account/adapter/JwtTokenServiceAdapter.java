@@ -68,7 +68,11 @@ public class JwtTokenServiceAdapter implements TokenService {
     }
 
     private <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
-        final var claims = Jwts.parser().verifyWith(secretKey().get()).build().parseSignedClaims(token).getPayload();
+        final var claims = Jwts.parser()
+                .verifyWith(secretKey().get())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
         return claimsResolver.apply(claims);
     }
 

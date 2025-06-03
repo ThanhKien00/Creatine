@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record AccountResponse(
+        String id,
         String email,
         String username,
-        String password,
         String bio,
         Integer age,
         String firstName,

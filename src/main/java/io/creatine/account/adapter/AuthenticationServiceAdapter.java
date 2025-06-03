@@ -63,4 +63,9 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
     public void changePassword() {
 
     }
+
+    @Override
+    public void forgotPassword() {
+
+    }
 }

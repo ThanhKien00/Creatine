@@ -38,7 +38,20 @@ import java.time.ZonedDateTime;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private static final String[] WHITE_LIST = new String[] { "/api/auth/**", "/v2/api-docs", "/v3/api-docs", "/v3/api-docs/**", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagger-resources/configuration/security", "/swagger-ui.html/**", "/swagger-ui/**", "/swagger-ui.html/**" };
+    private static final String[] WHITE_LIST = new String[] {
+            "/api/auth/**",
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/swagger-resources/configuration/ui",
+            "/swagger-resources/configuration/security",
+            "/swagger-ui.html/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html/**"
+    };
 
     @Bean
     public JwtAuthenticationFilter authenticationFilter(TokenService tokenService,
@@ -54,8 +67,8 @@ public class SecurityConfig {
                                         JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
+                        .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, WHITE_LIST).permitAll()
-                        .requestMatchers(HttpMethod.POST, WHITE_LIST).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -98,8 +111,7 @@ public class SecurityConfig {
             var errorResponse = new ErrorResponse(
                     authException.getMessage(),
                     URI.create(request.getServletPath()),
-                    ZonedDateTime.now(),
-                    null);
+                    ZonedDateTime.now());
 
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -110,12 +122,25 @@ public class SecurityConfig {
     }
 
     @Component
+    @RequiredArgsConstructor
     private static class AuthenticationAccessDeniedHandler implements AccessDeniedHandler {
+
+        private final ObjectMapper jacksonMapper;
+
         @Override
         public void handle(HttpServletRequest request,
                            HttpServletResponse response,
-                           AccessDeniedException accessDeniedException) {
+                           AccessDeniedException accessDeniedException) throws IOException {
+            var errorResponse = new ErrorResponse(
+                    accessDeniedException.getMessage(),
+                    URI.create(request.getServletPath()),
+                    ZonedDateTime.now());
 
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            var responseStream = response.getOutputStream();
+            jacksonMapper.writeValue(responseStream, errorResponse);
+            responseStream.flush();
         }
     }
 

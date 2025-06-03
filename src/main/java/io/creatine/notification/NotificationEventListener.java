@@ -10,10 +10,12 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Component;
 
+import java.security.SecureRandom;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class EventListener {
+public class NotificationEventListener {
 
     @Value("${spring.mail.username}")
     private String fromEmail;
@@ -28,6 +30,14 @@ public class EventListener {
         messageHelper.setTo(event.email());
         messageHelper.setSubject("Verify Your Email Address - " + event.username());
 
+        String htmlContent = emailVerificationTemplate(
+                event.username(),
+                generateVerificationCode(),
+                event.email()
+        );
+
+        messageHelper.setText(htmlContent, true);
+        mailSender.send(mimeMessage);
 
     }
 
@@ -155,4 +165,9 @@ public class EventListener {
             """.formatted();
     }
 
+    private String generateVerificationCode() {
+        SecureRandom random = new SecureRandom();
+        int code = 100000 + random.nextInt(900000);
+        return String.valueOf(code);
+    }
 }

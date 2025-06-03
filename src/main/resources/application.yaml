@@ -22,7 +22,7 @@ spring:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
   mail:
     protocol: smtp
     host: smtp.gmail.com
@@ -37,7 +37,6 @@ spring:
             enable: true
             required: true
   jackson:
-    property-naming-strategy: SNAKE_CASE
     default-property-inclusion: non_null
     serialization:
       indent-output: true
@@ -50,6 +49,10 @@ spring:
       fail-on-unknown-properties: false
       accept-single-value-as-array: true
 
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.web.FilterChainProxy: DEBUG
 ###########
 # Creatine
 ###########

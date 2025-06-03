@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Slf4j
 @JsonTest
 @TestPropertySource(properties = {
-        "spring.jackson.property-naming-strategy=SNAKE_CASE",
         "spring.jackson.default-property-inclusion=non_null",
         "spring.jackson.serialization.indent-output=true",
         "spring.jackson.serialization.close-closeable=true",
@@ -50,15 +51,16 @@ public class JacksonConfigTest {
     }
 
     @Test
-    void testSnakeCasePropertyNaming() {
+    void testCamelCasePropertyNaming() {
+        log.info("JSON Output: {}", json);
         assertNotNull(json);
-        assertTrue(json.contains("user_id"));
-        assertTrue(json.contains("first_name"));
-        assertTrue(json.contains("last_name"));
-        assertTrue(json.contains("created_date"));
-        assertFalse(json.contains("userId"));
-        assertFalse(json.contains("firstName"));
-        assertFalse(json.contains("lastName"));
+        assertTrue(json.contains("userId"));
+        assertTrue(json.contains("firstName"));
+        assertTrue(json.contains("lastName"));
+        assertTrue(json.contains("createdDate"));
+        assertFalse(json.contains("user_id"));
+        assertFalse(json.contains("first_Name"));
+        assertFalse(json.contains("lastname"));
     }
 
     @Test

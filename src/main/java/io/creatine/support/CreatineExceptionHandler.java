@@ -28,6 +28,6 @@ public class CreatineExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ErrorResponse handleDataIntegrityViolationException(DataIntegrityViolationException ex, HttpServletRequest request) {
-        return new ErrorResponse(ex.getMessage(), URI.create(request.getServletPath()), ZonedDateTime.now(), null);
+        return new ErrorResponse(ex.getMessage(), URI.create(request.getServletPath()), ZonedDateTime.now());
     }
 }

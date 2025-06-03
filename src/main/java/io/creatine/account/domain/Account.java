@@ -2,6 +2,7 @@ package io.creatine.account.domain;
 
 import io.creatine.account.domain.command.CreateAccount;
 import io.creatine.account.domain.command.TrackAccountLogin;
+import io.creatine.account.domain.command.UpdateAccountProfile;
 import io.creatine.account.domain.event.AccountCreated;
 import io.creatine.account.domain.valueobject.Authority;
 import io.creatine.account.domain.valueobject.Measurement;
@@ -12,17 +13,11 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-/// # Account Aggregate
-/// To manage system accounts, Creatine has a notion of a {@code Account} in the form of Account Interfaces.
-///
-/// @author ThanhKien
 
 @Getter
 @Entity
@@ -38,24 +33,19 @@ public class Account extends AbstractAggregateRoot<Account> implements UserDetai
     private String username;
     private String password;
 
-    private String bio;
-    private Integer age;
-    private String firstName;
-    private String lastName;
-    private LocalDate birthday;
-    private String imageUrl;
-
     private String ipAddress;
     private LocalDateTime lastLogin;
     private Integer loginAttempts;
     private Boolean enabled;
 
+    @Embedded
+    private Profile profile;
+    @OneToOne(mappedBy = "account", cascade = CascadeType.PERSIST)
+    private Goal goal;
     @ElementCollection(fetch = FetchType.LAZY)
     private List<Measurement> measurements;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Role> roles;
-    @OneToOne(mappedBy = "account")
-    private Goal goal;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -72,8 +62,10 @@ public class Account extends AbstractAggregateRoot<Account> implements UserDetai
         this.username = command.username();
         this.password = command.password();
         this.roles = List.of(Role.of(Authority.USER));
+        this.profile = new Profile();
         this.enabled = true;
         this.loginAttempts = 0;
+
 
         registerEvent(AccountCreated.builder()
                 .accountId(id)
@@ -92,5 +84,18 @@ public class Account extends AbstractAggregateRoot<Account> implements UserDetai
 
         return this;
     }
+
+    public Account updateProfile(UpdateAccountProfile command) {
+
+        this.lastLogin = LocalDateTime.now();
+        this.loginAttempts = 0; // Reset login attempts on profile update
+        return this;
+    }
+
+    public void disable() {
+        this.enabled = false; // Softly delete it by disabling the account
+    }
+
+
 
 }

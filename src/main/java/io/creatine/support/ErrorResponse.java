@@ -24,9 +24,16 @@ public record ErrorResponse(
         String message,
         URI resource,
         ZonedDateTime timestamp,
-        List<ErrorDetail> errors) {
+        List<ErrorDetail> errors,
+        boolean isSuccess) {
 
+    public ErrorResponse(String message, URI resource, ZonedDateTime timestamp, List<ErrorDetail> errors) {
+        this(message, resource, timestamp, errors, false);
+    }
 
+    public ErrorResponse(String message, URI resource, ZonedDateTime timestamp) {
+        this(message, resource, timestamp, List.of(), false);
+    }
 
     /**
      * Represents a specific field-level error within an error response. This nested record provides granular error
