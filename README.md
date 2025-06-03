@@ -9,7 +9,6 @@ scientifically sound methodology.
 
 ## Tech Stack
 
-- React 19 (Typescript)
 - Java 24:
 - Spring Boot 3.4.4:
 - Spring Modulith 1.3.4:
