@@ -1,5 +1,6 @@
 package io.creatine.account.domain;
 
+import io.creatine.account.domain.command.UpdateAccountProfile;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,5 +17,15 @@ public class Profile {
     private LocalDate birthday;
     private String imageUrl;
     private String address;
+
+    void update(UpdateAccountProfile command) {
+        this.bio = command.bio();
+        this.age = command.age();
+        this.firstName = command.firstName();
+        this.lastName = command.lastName();
+        this.birthday = command.birthday();
+        this.imageUrl = command.imageUrl();
+        this.address = command.address();
+    }
 
 }

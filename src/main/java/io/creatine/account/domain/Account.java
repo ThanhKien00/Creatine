@@ -86,7 +86,7 @@ public class Account extends AbstractAggregateRoot<Account> implements UserDetai
     }
 
     public Account updateProfile(UpdateAccountProfile command) {
-
+        this.profile.update(command);
         this.lastLogin = LocalDateTime.now();
         this.loginAttempts = 0; // Reset login attempts on profile update
         return this;
