@@ -60,7 +60,12 @@ public class AccountServiceAdapter implements AccountService, UserDetailsService
 
     @Override
     public AccountResponse updateProfile(UpdateAccountProfile command) {
-        return null;
+        var accountId = UUID.fromString(command.accountId());
+        var account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+        account.updateProfile(command);
+        accountRepository.save(account);
+        return accountMapper.toResponse(account);
     }
 
     @Override

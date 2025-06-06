@@ -48,10 +48,12 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
     @Override
     public TokenResponse authenticate(AuthenticateAccount command) {
         var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(command.username(), command.password()));
-        var account = (Account) authentication.getPrincipal();
         var trackLoginCommand = new TrackAccountLogin(command.ipAddress());
+        var account = ((Account) authentication.getPrincipal())
+                .trackLogin(trackLoginCommand);
 
-        accountRepository.save(account.trackLogin(trackLoginCommand));
+
+        accountRepository.save(account);
         Map<String, Object> claims = account.getRoles()
                 .stream()
                 .collect(Collectors.toMap(_ -> "roles", Role::authority));

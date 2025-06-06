@@ -1,12 +1,13 @@
 package io.creatine.account.domain.valueobject;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.jmolecules.ddd.types.ValueObject;
 
 import java.time.LocalDate;
 
+@Data
 @Embeddable
-@Table(name = "measurements")
 public class Measurement implements ValueObject {
     private LocalDate recordedDate;
     private Double weight;
