@@ -33,7 +33,6 @@ public class AccountServiceAdapter implements AccountService, UserDetailsService
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with username '%s' not found", username)));
     }
 
-
     @Override
     public AccountResponse current() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();

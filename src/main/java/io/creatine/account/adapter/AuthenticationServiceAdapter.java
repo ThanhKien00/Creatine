@@ -52,7 +52,6 @@ public class AuthenticationServiceAdapter implements AuthenticationService {
         var account = ((Account) authentication.getPrincipal())
                 .trackLogin(trackLoginCommand);
 
-
         accountRepository.save(account);
         Map<String, Object> claims = account.getRoles()
                 .stream()

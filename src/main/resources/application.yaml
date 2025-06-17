@@ -22,7 +22,7 @@ spring:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   mail:
     protocol: smtp
     host: smtp.gmail.com
@@ -58,7 +58,7 @@ logging:
 ###########
 creatine:
   jwt:
-    issuer: creatine.io
-    secret-key: 7bf16aaa1e4b3da1b3e2a29cc2a380eddf0e883385a7ba668763a255bb75f5ebaf1cf449874526d991451f88cca12068486125159205655458abc14fa17d5192
+    issuer: ${JWT_ISSUER:creatine.io}
+    secret-key: ${JWT_SECRET_KEY:7bf16aaa1e4b3da1b3e2a29cc2a380eddf0e883385a7ba668763a255bb75f5ebaf1cf449874526d991451f88cca12068486125159205655458abc14fa17d5192}
     expires-in: 86_400_000
     refresh-expires-in: 108_000_000
