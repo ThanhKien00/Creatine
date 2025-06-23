@@ -17,6 +17,7 @@ import java.util.List;
  * @param resource  The URI of the resource that was being accessed when the error occurred
  * @param timestamp The exact date and time when the error occurred, with timezone information
  * @param errors    A list of detailed field-specific errors, useful for validation failures
+ * @param isSuccess Indicate whether the action resulted in success or failure. Always returns false in an error reponse.
  * @author ThanhKien00
  * @since 1.0.0
  */

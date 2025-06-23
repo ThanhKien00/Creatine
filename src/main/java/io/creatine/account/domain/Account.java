@@ -62,7 +62,7 @@ public class Account extends AbstractAggregateRoot<Account> implements UserDetai
         this.username = command.username();
         this.password = command.password();
         this.roles = List.of(Role.of(Authority.USER));
-        this.profile = new Profile();
+        this.profile = Profile.newProfile();
         this.enabled = true;
         this.loginAttempts = 0;
 

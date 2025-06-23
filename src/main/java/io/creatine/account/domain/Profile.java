@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Profile {
 
     private String bio;
@@ -17,6 +18,10 @@ public class Profile {
     private LocalDate birthday;
     private String imageUrl;
     private String address;
+
+    public static Profile newProfile() {
+        return new Profile();
+    }
 
     void update(UpdateAccountProfile command) {
         this.bio = command.bio();
