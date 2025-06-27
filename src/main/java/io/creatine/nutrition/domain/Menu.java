@@ -15,7 +15,7 @@ public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int totalCalories;
+    private double totalCalories;
     private boolean certified;
 
 
@@ -25,7 +25,7 @@ public class Menu {
     private void calculateCalories() {
         this.totalCalories = foodMenus.stream()
                 .map(FoodMenu::getFoodCalories)
-                .reduce(0, Integer::sum);
+                .reduce(0d, Double::sum);
     }
 
 }

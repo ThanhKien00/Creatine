@@ -2,7 +2,7 @@ package io.creatine.nutrition.api;
 
 public interface FoodService {
 
-    void create();
+    void customize(CustomizeFood command);
 
     void update();
 

@@ -25,7 +25,7 @@ public class FoodMenu {
     @JoinColumn(referencedColumnName = "id")
     private Menu menu;
 
-    public Integer getFoodCalories() {
+    public double getFoodCalories() {
         return this.food.getCalories();
     }
 

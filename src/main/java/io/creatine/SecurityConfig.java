@@ -40,6 +40,7 @@ public class SecurityConfig {
 
     private static final String[] WHITE_LIST = new String[] {
             "/api/auth/**",
+            "/api/foods",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
@@ -67,8 +68,7 @@ public class SecurityConfig {
                                         JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, WHITE_LIST).permitAll()
+                        .requestMatchers(WHITE_LIST).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
