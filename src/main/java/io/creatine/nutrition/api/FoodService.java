@@ -1,8 +1,11 @@
 package io.creatine.nutrition.api;
 
+import io.creatine.nutrition.api.response.FoodResponse;
+import io.creatine.nutrition.domain.command.CustomizeFood;
+
 public interface FoodService {
 
-    void customize(CustomizeFood command);
+    FoodResponse customize(CustomizeFood command);
 
     void update();
 
